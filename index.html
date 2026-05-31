@@ -7,169 +7,591 @@
   <meta name="color-scheme" content="dark light" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
   <style>
-    :root{
-      --bg: #0b1020;
-      --card: #121833;
+    :root {
+      --bg: #020204;
+      --surface: #0A0B10;
+      --card: rgba(255,255,255,0.03);
+      --card-hover: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.07);
+      --border-hover: rgba(59,130,246,0.3);
       --text: #e6e8ee;
-      --muted: #a7b0c3;
-      --ring: #3b82f6;
+      --text-secondary: #8892a8;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59,130,246,0.15);
+      --accent-secondary: #6366f1;
+      --gradient-text: linear-gradient(135deg, #93b8f0, #3b82f6, #6366f1);
     }
-    * { box-sizing: border-box; }
-    body{
-      margin:0; font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      background: radial-gradient(1200px 600px at 10% -10%, rgba(59,130,246,.25), transparent),
-                  radial-gradient(1000px 500px at 90% -10%, rgba(147,51,234,.16), transparent),
-                  var(--bg);
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
     }
-    .wrap{ max-width: 1100px; margin: 0 auto; padding: 32px 20px 56px; }
-    header{ display:flex; align-items:center; gap:16px; margin-bottom: 36px; }
-    .avatar{ width:56px; height:56px; border-radius:50%; border:2px solid rgba(255,255,255,.1); box-shadow: 0 0 0 4px rgba(59,130,246,.25); }
-    h1{ font-size: clamp(24px, 3.5vw, 36px); margin:0 0 6px; letter-spacing:.2px; }
-    p.tag{ margin: 4px 0 8px; color: var(--muted); }
-    section{ background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.06); border-radius: 20px; padding: 20px; box-shadow: 0 10px 30px rgba(0,0,0,.25); margin: 18px 0; }
-    section h2{ margin: 0 0 14px; font-size: clamp(18px, 2.4vw, 22px); }
 
-    /* badges */
-    .badges{ display:flex; flex-wrap: wrap; gap:10px; }
-    .badges img{ height:28px; border-radius: 8px; display:block; }
-
-    /* stats */
-    .stats{ display:grid; grid-template-columns: 1fr; gap: 12px; }
-    .stats img{ max-width: 500px; width:100%; height:auto; border-radius: 14px; border:none; background:#0a0f22; display:block; }
-
-    /* projects & certifications */
-    .projects{ display:flex; flex-direction: column; gap:16px; }
-    .project{ padding:16px; border-radius: 16px; background: rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.06); }
-    .project h3{ margin:0 0 4px; font-size: 1.1rem; }
-    .project .date{ color: var(--muted); font-size: 0.85rem; margin-bottom: 6px; }
-    .project p{ margin:0; font-size: 0.95rem; line-height: 1.4; }
-
-    a.btn{
-      display:inline-flex; align-items:center; gap:8px; text-decoration:none; color: #0b1020; background:#60a5fa;
-      padding:12px 16px; border-radius: 999px; font-weight: 600; border: 1px solid rgba(0,0,0,.15);
-      box-shadow: 0 6px 16px rgba(59,130,246,.35);
-      margin-top: 8px;
+    .bg-blob {
+      position: fixed; border-radius: 50%; filter: blur(120px);
+      pointer-events: none; z-index: 0;
+      animation: blob-drift 20s ease-in-out infinite alternate;
     }
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top: 10px; }
+    .bg-blob--1 { width:700px;height:700px;top:-15%;left:-10%;background:radial-gradient(circle,rgba(59,130,246,.18),transparent 70%); }
+    .bg-blob--2 { width:500px;height:500px;top:30%;right:-8%;background:radial-gradient(circle,rgba(99,102,241,.12),transparent 70%);animation-delay:-7s; }
+    .bg-blob--3 { width:400px;height:400px;bottom:-10%;left:20%;background:radial-gradient(circle,rgba(59,130,246,.10),transparent 70%);animation-delay:-14s; }
+    @keyframes blob-drift {
+      0%   { transform: translate(0,0) scale(1); }
+      50%  { transform: translate(30px,-20px) scale(1.05); }
+      100% { transform: translate(-20px,15px) scale(.97); }
+    }
+
+    .wrap { position:relative;z-index:1;max-width:1080px;margin:0 auto;padding:48px 24px 80px; }
+
+    /* Hero */
+    .hero { display:flex;align-items:flex-start;gap:24px;margin-bottom:56px;padding-bottom:40px;border-bottom:1px solid var(--border); }
+    .avatar-ring {
+      flex-shrink:0;width:88px;height:88px;border-radius:50%;padding:3px;
+      background:linear-gradient(135deg,var(--accent),var(--accent-secondary));
+      animation: avatar-pulse 4s ease-in-out infinite;
+    }
+    @keyframes avatar-pulse {
+      0%,100% { box-shadow:0 0 0 0 rgba(59,130,246,.3); }
+      50%     { box-shadow:0 0 0 8px rgba(59,130,246,0); }
+    }
+    .avatar-ring img { width:100%;height:100%;border-radius:50%;border:3px solid var(--bg);display:block;object-fit:cover; }
+    .hero-info { flex:1; }
+    .hero-name {
+      font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-.5px;line-height:1.15;
+      background:var(--gradient-text);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:6px;
+    }
+    .hero-tag { color:var(--text-secondary);font-size:.95rem;font-weight:500;margin-bottom:16px;line-height:1.5; }
+    .hero-tag span { color:var(--accent); }
+    .actions { display:flex;gap:10px;flex-wrap:wrap; }
+
+    .btn {
+      display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-family:inherit;
+      font-size:.82rem;font-weight:600;padding:10px 18px;border-radius:999px;border:none;cursor:pointer;
+      transition:all .25s ease;position:relative;overflow:hidden;
+    }
+    .btn--primary {
+      color:#fff;background:linear-gradient(135deg,#3b82f6,#4f46e5);
+      box-shadow:0 4px 20px rgba(59,130,246,.3),inset 0 1px 0 rgba(255,255,255,.15);
+    }
+    .btn--primary:hover { transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,130,246,.4),inset 0 1px 0 rgba(255,255,255,.15); }
+    .btn--secondary {
+      color:var(--text);background:rgba(255,255,255,.05);border:1px solid var(--border);box-shadow:0 2px 8px rgba(0,0,0,.2);
+    }
+    .btn--secondary:hover { background:rgba(255,255,255,.08);border-color:var(--border-hover);transform:translateY(-2px); }
+    .btn .iconify { font-size:1.1em; }
+
+    /* Sections */
+    .section { margin-bottom:40px; }
+    .section-header { display:flex;align-items:center;gap:10px;margin-bottom:20px; }
+    .section-header .iconify { font-size:20px;color:var(--accent); }
+    .section-title { font-size:1.15rem;font-weight:700;letter-spacing:-.3px;color:var(--text); }
+    .section-line { flex:1;height:1px;background:linear-gradient(90deg,var(--border),transparent); }
+
+    /* Badges */
+    .badges { display:flex;flex-wrap:wrap;gap:8px; }
+    .badge {
+      display:inline-flex;align-items:center;gap:7px;padding:7px 14px;border-radius:999px;
+      background:var(--card);border:1px solid var(--border);font-size:.78rem;font-weight:600;color:var(--text);
+      transition:all .25s ease;cursor:default;user-select:none;
+    }
+    .badge:hover { background:var(--card-hover);border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.2); }
+    .badge .iconify { font-size:16px; }
+    .badge--c .iconify { color:#555; }
+    .badge--cpp .iconify { color:#f34b7d; }
+    .badge--html .iconify { color:#E34F26; }
+    .badge--java .iconify { color:#b07219; }
+    .badge--js .iconify { color:#f1e05a; }
+    .badge--php .iconify { color:#4F5D95; }
+    .badge--ps .iconify { color:#5391FE; }
+    .badge--py .iconify { color:#3572A5; }
+    .badge--dotnet .iconify { color:#512BD4; }
+    .badge--flask .iconify { color:#fff; }
+    .badge--node .iconify { color:#339933; }
+    .badge--tw .iconify { color:#06B6D4; }
+    .badge--wp .iconify { color:#21759B; }
+    .badge--mysql .iconify { color:#4479A1; }
+    .badge--pt .iconify { color:#EE4C2C; }
+    .badge--tf .iconify { color:#FF6F00; }
+    .badge--git .iconify { color:#F05033; }
+    .badge--gh .iconify { color:#fff; }
+    .badge--wt .iconify { color:#4D4D4D; }
+
+    /* Stats */
+    .stats-card {
+      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;
+      transition:border-color .3s ease;
+    }
+    .stats-card:hover { border-color:var(--border-hover); }
+
+    .stats-loading {
+      display:flex;align-items:center;gap:10px;justify-content:center;
+      padding:32px 0;color:var(--text-secondary);font-size:.88rem;
+    }
+    .stats-loading .iconify { font-size:20px;color:var(--accent);animation:spin 1s linear infinite; }
+    @keyframes spin { to { transform:rotate(360deg); } }
+
+    .stats-error {
+      text-align:center;padding:24px 0;color:var(--text-secondary);font-size:.85rem;
+    }
+    .stats-error a { color:var(--accent);text-decoration:underline; }
+
+    /* Language bar */
+    .lang-bar {
+      display:flex;height:10px;border-radius:999px;overflow:hidden;margin-bottom:20px;
+      background:rgba(255,255,255,.04);
+    }
+    .lang-bar-segment {
+      height:100%;transition:width .8s cubic-bezier(.16,1,.3,1);
+      position:relative;
+    }
+    .lang-bar-segment:hover { filter:brightness(1.2); }
+
+    /* Language list */
+    .lang-list { display:flex;flex-wrap:wrap;gap:6px 16px; }
+    .lang-item {
+      display:flex;align-items:center;gap:6px;font-size:.8rem;font-weight:500;color:var(--text-secondary);
+      transition:color .2s ease;cursor:default;
+    }
+    .lang-item:hover { color:var(--text); }
+    .lang-dot {
+      width:10px;height:10px;border-radius:50%;flex-shrink:0;
+      box-shadow:0 0 6px var(--dot-color);
+    }
+    .lang-pct { font-weight:700;color:var(--text);font-size:.78rem; }
+
+    /* Cards grid */
+    .cards { display:grid;grid-template-columns:1fr;gap:14px; }
+    @media(min-width:640px) { .cards { grid-template-columns:repeat(2,1fr); } }
+
+    .card {
+      background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;
+      transition:all .3s ease;position:relative;overflow:hidden;
+    }
+    .card::before {
+      content:'';position:absolute;top:0;left:0;width:100%;height:2px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+      opacity:0;transition:opacity .3s ease;
+    }
+    .card:hover {
+      background:var(--card-hover);border-color:var(--border-hover);
+      transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.2);
+    }
+    .card:hover::before { opacity:1; }
+
+    .card-icon {
+      width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;
+      background:var(--accent-glow);margin-bottom:14px;transition:background .3s ease;
+    }
+    .card:hover .card-icon { background:rgba(59,130,246,.25); }
+    .card-icon .iconify { font-size:18px;color:var(--accent); }
+    .card-title { font-size:.92rem;font-weight:700;line-height:1.35;margin-bottom:4px;color:var(--text); }
+    .card-date {
+      font-size:.75rem;font-weight:500;color:var(--accent);margin-bottom:8px;
+      display:flex;align-items:center;gap:5px;
+    }
+    .card-date .iconify { font-size:13px; }
+    .card-desc { font-size:.83rem;color:var(--text-secondary);line-height:1.55; }
+
+    /* Cert grid */
+    .cert-grid { display:grid;grid-template-columns:1fr;gap:10px; }
+    @media(min-width:640px) { .cert-grid { grid-template-columns:repeat(2,1fr); } }
+    .cert {
+      display:flex;align-items:flex-start;gap:12px;padding:16px;border-radius:14px;
+      background:var(--card);border:1px solid var(--border);transition:all .25s ease;
+    }
+    .cert:hover { background:var(--card-hover);border-color:var(--border-hover);transform:translateY(-2px); }
+    .cert-icon {
+      flex-shrink:0;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;
+      justify-content:center;background:rgba(99,102,241,.12);
+    }
+    .cert-icon .iconify { font-size:16px;color:#818cf8; }
+    .cert-title { font-size:.82rem;font-weight:600;line-height:1.4;color:var(--text);margin-bottom:3px; }
+    .cert-meta { font-size:.72rem;color:var(--text-secondary);display:flex;align-items:center;gap:5px; }
+    .cert-meta .iconify { font-size:12px; }
+
+    /* Reveal */
+    .reveal {
+      opacity:0;transform:translateY(24px);filter:blur(4px);
+      transition:all .7s cubic-bezier(.16,1,.3,1);
+    }
+    .reveal.visible { opacity:1;transform:translateY(0);filter:blur(0); }
+
+    .footer {
+      margin-top:48px;padding-top:24px;border-top:1px solid var(--border);
+      text-align:center;color:var(--text-secondary);font-size:.78rem;
+    }
+
+    @media(max-width:639px) {
+      .hero { flex-direction:column;align-items:center;text-align:center; }
+      .avatar-ring { width:72px;height:72px; }
+      .actions { justify-content:center; }
+      .hero-tag { font-size:.88rem; }
+      .badges { justify-content:center; }
+    }
   </style>
 </head>
 <body>
+
+  <div class="bg-blob bg-blob--1" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob--2" aria-hidden="true"></div>
+  <div class="bg-blob bg-blob--3" aria-hidden="true"></div>
+
   <div class="wrap">
-    <header>
-      <img class="avatar" src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="GitHub logo avatar" loading="lazy" />
-      <div>
-        <h1>Muhammad Zakerya Munawar</h1>
-        <p class="tag">Developer • Mechatronics Engineering • Building in C/C++, Python, Java and more</p>
+
+    <header class="hero reveal">
+      <div class="avatar-ring">
+        <img src="https://avatars.githubusercontent.com/u/9919?s=200&v=4" alt="Avatar" loading="lazy" />
+      </div>
+      <div class="hero-info">
+        <h1 class="hero-name">Muhammad Zakerya Munawar</h1>
+        <p class="hero-tag">Mechatronics Engineering &bull; Building in <span>C/C++</span>, <span>Python</span>, <span>Java</span> & more</p>
         <div class="actions">
-          <a class="btn" href="https://github.com/zakerya" target="_blank" rel="noopener noreferrer">View GitHub Profile</a>
-          <a class="btn" href="https://www.linkedin.com/in/muhammad-zakerya-munawar-38534b229/" target="_blank" rel="noopener noreferrer">View LinkedIn Profile</a>
+          <a class="btn btn--primary" href="https://github.com/zakerya" target="_blank" rel="noopener noreferrer">
+            <span class="iconify" data-icon="mdi:github"></span> GitHub
+          </a>
+          <a class="btn btn--secondary" href="https://www.linkedin.com/in/muhammad-zakerya-munawar-38534b229/" target="_blank" rel="noopener noreferrer">
+            <span class="iconify" data-icon="mdi:linkedin"></span> LinkedIn
+          </a>
         </div>
       </div>
     </header>
 
-    <!-- Tech Stack -->
-    <section aria-labelledby="techstack">
-      <h2 id="techstack">Tech Stack</h2>
+    <section class="section reveal" aria-labelledby="techstack">
+      <div class="section-header">
+        <span class="iconify" data-icon="mdi:code-braces-box"></span>
+        <h2 class="section-title" id="techstack">Tech Stack</h2>
+        <div class="section-line"></div>
+      </div>
       <div class="badges">
-        <img alt="C" src="https://img.shields.io/badge/c-%2300599C.svg?style=for-the-badge&logo=c&logoColor=white" loading="lazy" />
-        <img alt="C++" src="https://img.shields.io/badge/c++-%2300599C.svg?style=for-the-badge&logo=c%2B%2B&logoColor=white" loading="lazy" />
-        <img alt="HTML5" src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white" loading="lazy" />
-        <img alt="Java" src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white" loading="lazy" />
-        <img alt="JavaScript" src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E" loading="lazy" />
-        <img alt="PHP" src="https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white" loading="lazy" />
-        <img alt="PowerShell" src="https://img.shields.io/badge/PowerShell-%235391FE.svg?style=for-the-badge&logo=powershell&logoColor=white" loading="lazy" />
-        <img alt="Python" src="https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54" loading="lazy" />
-        <img alt="Windows Terminal" src="https://img.shields.io/badge/Windows%20Terminal-%234D4D4D.svg?style=for-the-badge&logo=windows-terminal&logoColor=white" loading="lazy" />
-        <img alt=".NET" src="https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white" loading="lazy" />
-        <img alt="Flask" src="https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white" loading="lazy" />
-        <img alt="NodeJS" src="https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white" loading="lazy" />
-        <img alt="TailwindCSS" src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" loading="lazy" />
-        <img alt="WordPress" src="https://img.shields.io/badge/WordPress-%23117AC9.svg?style=for-the-badge&logo=WordPress&logoColor=white" loading="lazy" />
-        <img alt="MySQL" src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white" loading="lazy" />
-        <img alt="PyTorch" src="https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white" loading="lazy" />
-        <img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-%23FF6F00.svg?style=for-the-badge&logo=TensorFlow&logoColor=white" loading="lazy" />
-        <img alt="Git" src="https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white" loading="lazy" />
-        <img alt="GitHub" src="https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white" loading="lazy" />
+        <span class="badge badge--c"><span class="iconify" data-icon="mdi:language-c"></span>C</span>
+        <span class="badge badge--cpp"><span class="iconify" data-icon="mdi:language-cpp"></span>C++</span>
+        <span class="badge badge--html"><span class="iconify" data-icon="mdi:language-html5"></span>HTML5</span>
+        <span class="badge badge--java"><span class="iconify" data-icon="mdi:language-java"></span>Java</span>
+        <span class="badge badge--js"><span class="iconify" data-icon="mdi:language-javascript"></span>JavaScript</span>
+        <span class="badge badge--php"><span class="iconify" data-icon="mdi:language-php"></span>PHP</span>
+        <span class="badge badge--ps"><span class="iconify" data-icon="mdi:powershell"></span>PowerShell</span>
+        <span class="badge badge--py"><span class="iconify" data-icon="mdi:language-python"></span>Python</span>
+        <span class="badge badge--wt"><span class="iconify" data-icon="mdi:microsoft-windows"></span>Windows Terminal</span>
+        <span class="badge badge--dotnet"><span class="iconify" data-icon="mdi:dot-net"></span>.NET</span>
+        <span class="badge badge--flask"><span class="iconify" data-icon="mdi:flask-outline"></span>Flask</span>
+        <span class="badge badge--node"><span class="iconify" data-icon="mdi:nodejs"></span>Node.js</span>
+        <span class="badge badge--tw"><span class="iconify" data-icon="mdi:tailwind"></span>TailwindCSS</span>
+        <span class="badge badge--wp"><span class="iconify" data-icon="mdi:wordpress"></span>WordPress</span>
+        <span class="badge badge--mysql"><span class="iconify" data-icon="mdi:database"></span>MySQL</span>
+        <span class="badge badge--pt"><span class="iconify" data-icon="simple-icons:pytorch"></span>PyTorch</span>
+        <span class="badge badge--tf"><span class="iconify" data-icon="simple-icons:tensorflow"></span>TensorFlow</span>
+        <span class="badge badge--git"><span class="iconify" data-icon="mdi:git"></span>Git</span>
+        <span class="badge badge--gh"><span class="iconify" data-icon="mdi:github"></span>GitHub</span>
       </div>
     </section>
 
-    <!-- GitHub Stats -->
-    <section aria-labelledby="stats">
-      <h2 id="stats">Most Used Languages</h2>
-      <div class="stats">
-        <img alt="Top Languages" src="https://github-readme-stats.vercel.app/api/top-langs/?username=zakerya&theme=tokyonight&hide_border=true&include_all_commits=true&count_private=false&layout=compact&hide_title=true" loading="lazy" />
+    <!-- ★ Custom GitHub Language Stats — no third-party dependency -->
+    <section class="section reveal" aria-labelledby="stats">
+      <div class="section-header">
+        <span class="iconify" data-icon="mdi:chart-bar"></span>
+        <h2 class="section-title" id="stats">Most Used Languages</h2>
+        <div class="section-line"></div>
       </div>
-    </section>
-
-    <!-- Projects -->
-    <section aria-labelledby="projects">
-      <h2 id="projects">Projects</h2>
-      <div class="projects">
-        <div class="project">
-          <h3>FTC Robot Programming</h3>
-          <div class="date">May 2024</div>
-          <p>FIRST Tech Challenge is a robotics competition for students to compete head to head, by designing, building, and programming a robot to compete in an alliance format against other teams.</p>
-        </div>
-        <div class="project">
-          <h3>VEX V5 Robot Autonomous Programming</h3>
-          <div class="date">May 2024</div>
-          <p>VEX V5 represents the fifth generation of education robotics systems developed with 20 years of experience using robotics to teach STEM principles. The V5 mechanical system includes versatile elements that makes engineering approachable for me, while still providing endless design possibilities. VEX allowed me to hone critical computational thinking skills needed to succeed in both the 21st century's workforce and in everyday life.</p>
-        </div>
-        <div class="project">
-          <h3>RoboClock - C++</h3>
-          <div class="date">Feb 2024 - Apr 2024</div>
-          <p>An overly complicated, exceptionally loud, and fairly finicky robot clock to help you keep track of time! This project was programmed using Arduino which is a variant of C++ and physically built using 3D-Printed parts.</p>
-        </div>
-        <div class="project">
-          <h3>Green App - Java/Java Swing</h3>
-          <div class="date">Jan 2024</div>
-          <p>Green Token is a crypto designed to promote sustainability and eco-friendliness. Unlike traditional cryptocurrencies, the distribution of Green Token is tied to sustainable actions and practices, making it a token with a direct positive impact on the environment.</p>
+      <div class="stats-card" id="stats-container">
+        <div class="stats-loading" id="stats-loading">
+          <span class="iconify" data-icon="mdi:loading"></span>
+          <span>Fetching language data from GitHub…</span>
         </div>
       </div>
     </section>
 
-    <!-- Licenses & Certifications -->
-    <section aria-labelledby="certifications">
-      <h2 id="certifications">Licenses & Certifications</h2>
-      <div class="projects">
-        <div class="project">
-          <h3>Diploma in DevOps Engineering - Kubernetes, Docker and Google Cloud</h3>
-          <div class="date">Issued Apr 2025 • Alison</div>
+    <section class="section reveal" aria-labelledby="projects">
+      <div class="section-header">
+        <span class="iconify" data-icon="mdi:rocket-launch-outline"></span>
+        <h2 class="section-title" id="projects">Projects</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon"><span class="iconify" data-icon="mdi:robot-outline"></span></div>
+          <h3 class="card-title">FTC Robot Programming</h3>
+          <div class="card-date"><span class="iconify" data-icon="mdi:calendar-outline"></span>May 2024</div>
+          <p class="card-desc">FIRST Tech Challenge robotics competition — designing, building, and programming a robot to compete in an alliance format against other teams.</p>
         </div>
-        <div class="project">
-          <h3>Career Essentials in Generative AI</h3>
-          <div class="date">Issued Nov 2024 • Microsoft & LinkedIn</div>
+        <div class="card">
+          <div class="card-icon"><span class="iconify" data-icon="mdi:robot-industrial-outline"></span></div>
+          <h3 class="card-title">VEX V5 Robot Autonomous Programming</h3>
+          <div class="card-date"><span class="iconify" data-icon="mdi:calendar-outline"></span>May 2024</div>
+          <p class="card-desc">Fifth-generation education robotics system — versatile mechanical elements with critical computational thinking skills for real-world problem solving.</p>
         </div>
-        <div class="project">
-          <h3>ISO 20000 - Principles of IT Service Management System (ITSM)</h3>
-          <div class="date">Issued Feb 2024 • Alison</div>
+        <div class="card">
+          <div class="card-icon"><span class="iconify" data-icon="mdi:clock-outline"></span></div>
+          <h3 class="card-title">RoboClock</h3>
+          <div class="card-date"><span class="iconify" data-icon="mdi:calendar-outline"></span>Feb – Apr 2024</div>
+          <p class="card-desc">An overly complicated, exceptionally loud, and fairly finicky robot clock — programmed in Arduino C++ with 3D-printed mechanical parts.</p>
         </div>
-        <div class="project">
-          <h3>Applications of AI</h3>
-          <div class="date">Issued Dec 2023 • Great Learning</div>
-        </div>
-        <div class="project">
-          <h3>Introduction to Machine Learning US</h3>
-          <div class="date">Issued Dec 2023 • Great Learning</div>
-        </div>
-        <div class="project">
-          <h3>Cloud Computing Foundations</h3>
-          <div class="date">Issued Mar 2023 • Great Learning</div>
-        </div>
-        <div class="project">
-          <h3>CompTIA A+ (220-1001 and 220-1002) Cert Prep: The Basics</h3>
-          <div class="date">Issued Jan 2023 • LinkedIn</div>
-        </div>
-        <div class="project">
-          <h3>CompTIA A+ (220-1001) Cert Prep 5: Display Technologies</h3>
-          <div class="date">Issued Dec 2022 • LinkedIn</div>
+        <div class="card">
+          <div class="card-icon"><span class="iconify" data-icon="mdi:leaf"></span></div>
+          <h3 class="card-title">Green App</h3>
+          <div class="card-date"><span class="iconify" data-icon="mdi:calendar-outline"></span>Jan 2024</div>
+          <p class="card-desc">Java Swing app for Green Token — a crypto tied to sustainable actions, making it a token with direct positive environmental impact.</p>
         </div>
       </div>
     </section>
+
+    <section class="section reveal" aria-labelledby="certifications">
+      <div class="section-header">
+        <span class="iconify" data-icon="mdi:certificate-outline"></span>
+        <h2 class="section-title" id="certifications">Licenses & Certifications</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="cert-grid">
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:cloud-cog-outline"></span></div>
+          <div>
+            <div class="cert-title">Diploma in DevOps Engineering — Kubernetes, Docker & GCP</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Apr 2025 &bull; Alison</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:brain"></span></div>
+          <div>
+            <div class="cert-title">Career Essentials in Generative AI</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Nov 2024 &bull; Microsoft & LinkedIn</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:server-outline"></span></div>
+          <div>
+            <div class="cert-title">ISO 20000 — Principles of ITSM</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Feb 2024 &bull; Alison</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:robot-happy-outline"></span></div>
+          <div>
+            <div class="cert-title">Applications of AI</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Dec 2023 &bull; Great Learning</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:chart-scatter-plot"></span></div>
+          <div>
+            <div class="cert-title">Introduction to Machine Learning</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Dec 2023 &bull; Great Learning</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:cloud-outline"></span></div>
+          <div>
+            <div class="cert-title">Cloud Computing Foundations</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Mar 2023 &bull; Great Learning</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:desktop-classic"></span></div>
+          <div>
+            <div class="cert-title">CompTIA A+ (220-1001 & 220-1002) Cert Prep: The Basics</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Jan 2023 &bull; LinkedIn</div>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="cert-icon"><span class="iconify" data-icon="mdi:monitor"></span></div>
+          <div>
+            <div class="cert-title">CompTIA A+ (220-1001) Cert Prep 5: Display Technologies</div>
+            <div class="cert-meta"><span class="iconify" data-icon="mdi:calendar-range"></span>Dec 2022 &bull; LinkedIn</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer reveal">
+      <p>&copy; 2025 Muhammad Zakerya Munawar &bull; Built with care</p>
+    </footer>
 
   </div>
+
+  <script>
+    /* ── Scroll reveal ── */
+    const reveals = document.querySelectorAll('.reveal');
+    const revealObs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const delay = Array.from(reveals).indexOf(entry.target) * 80;
+          setTimeout(() => entry.target.classList.add('visible'), delay);
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    reveals.forEach(el => revealObs.observe(el));
+
+    /* ── Staggered badge entrance ── */
+    const badgeContainer = document.querySelector('.badges');
+    if (badgeContainer) {
+      const badgeObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const items = badgeContainer.querySelectorAll('.badge');
+            items.forEach((b, i) => {
+              b.style.opacity = '0';
+              b.style.transform = 'translateY(10px) scale(0.95)';
+              b.style.transition = `all .4s cubic-bezier(.16,1,.3,1) ${i * 40}ms`;
+              requestAnimationFrame(() => requestAnimationFrame(() => {
+                b.style.opacity = '1';
+                b.style.transform = 'translateY(0) scale(1)';
+              }));
+            });
+            badgeObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+      badgeObs.observe(badgeContainer);
+    }
+
+    /* ── GitHub Language Stats — fetched directly from GitHub API ── */
+    const LANG_COLORS = {
+      'C':             '#555555',
+      'C++':           '#f34b7d',
+      'Java':          '#b07219',
+      'Python':        '#3572A5',
+      'JavaScript':    '#f1e05a',
+      'HTML':          '#e34c26',
+      'CSS':           '#563d7c',
+      'PHP':           '#4F5D95',
+      'Shell':         '#89e051',
+      'PowerShell':    '#012456',
+      'C#':            '#178600',
+      'TypeScript':    '#2b7489',
+      'Jupyter Notebook':'#DA5B0B',
+      'Arduino':       '#bd79d1',
+      'Cuda':          '#3A4E3A',
+      'Makefile':      '#427819',
+      'Dart':          '#00B4AB',
+      'Kotlin':        '#A97BFF',
+      'Go':            '#00ADD8',
+      'Rust':          '#dea584',
+      'Ruby':          '#701516',
+      'Swift':         '#F05138',
+      'Scala':         '#c22d40',
+      'R':             '#198CE7',
+      'Lua':           '#000080',
+      'Perl':          '#0298c3',
+      'Haskell':       '#5e5086',
+      'Objective-C':   '#438eff',
+      'CoffeeScript':  '#244776',
+      'Vue':           '#41b883',
+      'TeX':           '#3D6117',
+      'Dockerfile':    '#384d54',
+      'SCSS':          '#c6538c',
+      'Groovy':        '#e69f56',
+      'MATLAB':        '#e16737',
+    };
+
+    function getColor(lang) {
+      return LANG_COLORS[lang] || '#8b949e';
+    }
+
+    async function fetchLanguageStats(username) {
+      const container = document.getElementById('stats-container');
+      const loading   = document.getElementById('stats-loading');
+
+      try {
+        // 1. Fetch all public repos
+        const reposRes = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`);
+        if (!reposRes.ok) throw new Error(`GitHub API returned ${reposRes.status}`);
+        const repos = await reposRes.json();
+
+        if (!repos.length) {
+          container.innerHTML = '<div class="stats-error">No public repositories found.</div>';
+          return;
+        }
+
+        // 2. Fetch language byte counts per repo (batched parallel)
+        const totalBytes = {};
+        const BATCH = 10;
+        for (let i = 0; i < repos.length; i += BATCH) {
+          const batch = repos.slice(i, i + BATCH);
+          const results = await Promise.all(
+            batch.map(repo =>
+              fetch(repo.languages_url)
+                .then(r => r.ok ? r.json() : {})
+                .catch(() => ({}))
+            )
+          );
+          results.forEach(langs => {
+            Object.entries(langs).forEach(([lang, bytes]) => {
+              totalBytes[lang] = (totalBytes[lang] || 0) + bytes;
+            });
+          });
+        }
+
+        // 3. Sort & calculate percentages
+        const sorted = Object.entries(totalBytes)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 10);                     // top 10 languages
+
+        const grandTotal = sorted.reduce((s, [, b]) => s + b, 0);
+        const languages  = sorted.map(([lang, bytes]) => ({
+          lang,
+          bytes,
+          pct: ((bytes / grandTotal) * 100).toFixed(1),
+          color: getColor(lang),
+        }));
+
+        // 4. Render
+        renderStats(container, languages);
+
+      } catch (err) {
+        console.error('Language stats error:', err);
+        container.innerHTML = `
+          <div class="stats-error">
+            <p>Couldn't load language stats — GitHub API may be rate-limited.</p>
+            <p style="margin-top:6px">
+              <a href="https://github.com/${username}" target="_blank" rel="noopener noreferrer">
+                View on GitHub →
+              </a>
+            </p>
+          </div>`;
+      }
+    }
+
+    function renderStats(container, languages) {
+      // Segmented bar
+      let barHTML = '<div class="lang-bar">';
+      languages.forEach(l => {
+        barHTML += `<div class="lang-bar-segment" style="width:${l.pct}%;background:${l.color};" title="${l.lang} ${l.pct}%"></div>`;
+      });
+      barHTML += '</div>';
+
+      // Legend
+      let listHTML = '<div class="lang-list">';
+      languages.forEach(l => {
+        listHTML += `
+          <div class="lang-item">
+            <span class="lang-dot" style="background:${l.color};--dot-color:${l.color};"></span>
+            ${l.lang}
+            <span class="lang-pct">${l.pct}%</span>
+          </div>`;
+      });
+      listHTML += '</div>';
+
+      container.innerHTML = barHTML + listHTML;
+
+      // Animate bar segments in
+      requestAnimationFrame(() => {
+        container.querySelectorAll('.lang-bar-segment').forEach(seg => {
+          const w = seg.style.width;
+          seg.style.width = '0%';
+          requestAnimationFrame(() => { seg.style.width = w; });
+        });
+      });
+    }
+
+    // Kick it off
+    fetchLanguageStats('zakerya');
+  </script>
+
 </body>
 </html>
